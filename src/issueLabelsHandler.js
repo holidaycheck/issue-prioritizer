@@ -12,14 +12,18 @@ const hasAllMetrics = R.allPass([
     hasMetric('Weight')
 ]);
 
+const priorityLabelIsNotSet = R.complement(hasMetric('Priority'));
+
+const shouldAddPriorityLabel = R.allPass([hasAllMetrics, priorityLabelIsNotSet]);
+
 module.exports = (context, addLabel, calculatePriority) => {
-    const addLabelWithPriority = R.compose(
+    const addPriorityLabel = R.compose(
         addLabel.bind(null, context),
         calculatePriority.bind(null, context)
     );
 
     R.when(
-        hasAllMetrics,
-        addLabelWithPriority
+        shouldAddPriorityLabel,
+        addPriorityLabel
     )(context.labels);
 };

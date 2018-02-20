@@ -77,4 +77,21 @@ describe('issueLabelsHandler', () => {
         expect(calculatePriorityStub).toHaveBeenCalledTimes(0);
         expect(addLabelStub).toHaveBeenCalledTimes(0);
     });
+
+    it('WILL NOT add priority label when it has been already set', () => {
+        const context = {
+            labels: [
+                { id: 208045946, name: 'Effort: 0.1' },
+                { id: 123123123, name: 'Potential: 0.2' },
+                { id: 123456789, name: 'Weight: 0.3' },
+                { id: 123456789, name: 'Priority: 0.5' }
+            ]
+        };
+        const addLabelStub = jest.fn();
+        const calculatePriorityStub = jest.fn();
+        issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
+
+        expect(calculatePriorityStub).toHaveBeenCalledTimes(0);
+        expect(addLabelStub).toHaveBeenCalledTimes(0);
+    });
 });
