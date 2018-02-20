@@ -1,5 +1,4 @@
 const index = require('../../index');
-const issueLabelsHandler = require('../../src/issueLabelsHandler');
 
 describe('index', () => {
     it('handles issue labels events', () => {
@@ -7,6 +6,7 @@ describe('index', () => {
         index(robot);
 
         expect(robot.on).toHaveBeenCalledTimes(1);
-        expect(robot.on).toHaveBeenCalledWith('issues.label', issueLabelsHandler);
+        const firstArgument = robot.on.mock.calls[0][0];
+        expect(firstArgument).toEqual('issues.label');
     });
 });
