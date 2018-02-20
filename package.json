@@ -1,0 +1,41 @@
+{
+  "name": "issue-prioritizer",
+  "version": "1.0.0",
+  "description": "Set priority of github issue based on potential, weight and effort metrics",
+  "author": "Sergii Paryzhskyi <parizhskiy@gmail.com> (https://github.com/HeeL)",
+  "license": "MIT",
+  "repository": "https://github.com/holidaycheck/issue-prioritizer.git",
+  "scripts": {
+    "start": "probot run ./index.js",
+    "dev:start": "nodemon --exec 'npm start'",
+    "test": "jest",
+    "test:watch": "jest . --watch",
+    "pretest": "npm run lint",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "probot": "^5.0.0",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-ramda": "^2.4.0",
+    "jest": "^21.2.1",
+    "nodemon": "^1.14.12",
+    "smee-client": "^1.0.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.0.0"
+  },
+  "keywords": [
+    "issue",
+    "priority",
+    "github",
+    "probot",
+    "probot-plugin",
+    "probot-app"
+  ]
+}
