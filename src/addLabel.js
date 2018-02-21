@@ -1,20 +1,26 @@
 const R = require('ramda');
 
-const prepareLabel = (labelText, number) => ({
+const prepareLabel = (labelText, number, repo, owner) => ({
     number,
-    labels: [labelText]
+    labels: [labelText],
+    repo,
+    owner
 });
 
 module.exports = (context, labelText) => {
     const {
-        issue: { number: issueNumber },
-        repo: createLabelObject,
+        payload: {
+            issue: { number: issueNumber },
+            repository: {
+                owner: { login: owner },
+                name: repo
+            },
+        },
         github: { issues: { addLabels: addLabel } }
     } = context;
 
     R.compose(
         addLabel,
-        createLabelObject,
         prepareLabel
-    )(labelText, issueNumber);
+    )(labelText, issueNumber, repo, owner);
 };

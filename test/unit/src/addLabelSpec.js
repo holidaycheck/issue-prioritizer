@@ -2,34 +2,34 @@ const addLabel = require('../../../src/addLabel');
 
 describe('addLabel', () => {
     const issueNumber = 123;
-    const createContext = (repo = () => {}, addLabels = () => {}) =>
-        ({
-            repo,
-            issue: { number: issueNumber },
+    const owner = 'foo bar owner';
+    const repo = 'foobaria repo';
+    const labelName = 'some labelzzz';
+
+    const createContext = (addLabels) => {
+        const issue = { number: issueNumber };
+        const repository = {
+            name: repo,
+            owner: { login: owner }
+        };
+
+        return {
+            payload: { issue, repository },
             github: { issues: { addLabels } }
-        });
+        };
+    };
 
-    it('builds information for adding issue', () => {
-        const repoStub = jest.fn();
-        const context = createContext(repoStub);
-        const labelName = 'some label';
-        addLabel(context, labelName);
-
-        expect(repoStub).toHaveBeenCalledTimes(1);
-        expect(repoStub).toHaveBeenCalledWith({
-            number: issueNumber,
-            labels: [labelName]
-        });
-    });
-
-    it('passes prepared issue to add label', () => {
-        const repoStub = jest.fn().mockReturnValue('foo-bar');
+    it('calls addLabel with correct issue object', () => {
         const addLabelsStub = jest.fn();
-        const context = createContext(repoStub, addLabelsStub);
-        const labelName = 'some labelzzz';
+        const context = createContext(addLabelsStub);
         addLabel(context, labelName);
 
         expect(addLabelsStub).toHaveBeenCalledTimes(1);
-        expect(addLabelsStub).toHaveBeenCalledWith('foo-bar');
+        expect(addLabelsStub).toHaveBeenCalledWith({
+            number: issueNumber,
+            labels: [labelName],
+            owner,
+            repo
+        });
     });
 });
