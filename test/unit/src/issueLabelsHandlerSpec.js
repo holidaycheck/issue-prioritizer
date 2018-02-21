@@ -11,7 +11,29 @@ const expectDoNotCalculateOrAddPriorityLabel = (labels) => {
 };
 
 describe('issueLabelsHandler', () => {
-    it('adds calculated priority label when its missing and all metrics specified', () => {
+    it('calculates priority label when all metrics specified', () => {
+        const context = {
+            labels: [
+                { id: 208045946, name: 'Effort: 0.3' },
+                { id: 123123123, name: 'Potential: 0.3' },
+                { id: 123456789, name: 'Weight: 0.5' },
+                { id: 123456789, name: 'Foobaria: zzz' }
+            ]
+        };
+        const expectedLabelsForCalculation = {
+            effort: 0.3,
+            potential: 0.3,
+            weight: 0.5
+        };
+        const addLabelStub = jest.fn();
+        const calculatePriorityStub = jest.fn();
+        issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
+
+        expect(calculatePriorityStub).toHaveBeenCalledTimes(1);
+        expect(calculatePriorityStub).toHaveBeenCalledWith(expectedLabelsForCalculation);
+    });
+
+    it('adds calculated priority label when all metrics specified', () => {
         const context = {
             labels: [
                 { id: 208045946, name: 'Effort: 0.1' },
@@ -24,7 +46,6 @@ describe('issueLabelsHandler', () => {
         issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
 
         expect(addLabelStub).toHaveBeenCalledTimes(1);
-        expect(calculatePriorityStub).toHaveBeenCalledTimes(1);
         expect(addLabelStub).toHaveBeenCalledWith(context, 'foo-bar');
     });
 

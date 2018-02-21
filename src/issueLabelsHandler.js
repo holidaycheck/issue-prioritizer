@@ -1,29 +1,39 @@
 const R = require('ramda');
 
-const hasMetric = metric =>
-    R.any(R.propSatisfies(
-        R.contains(`${metric}: `),
-        'name'
-    ));
+const metricNames = ['effort', 'weight', 'potential'];
+const priorityLabelName = 'priority';
 
-const hasAllMetrics = R.allPass([
-    hasMetric('Potential'),
-    hasMetric('Effort'),
-    hasMetric('Weight')
-]);
+const priorityLabelIsNotSet = R.complement(R.has(priorityLabelName));
 
-const priorityLabelIsNotSet = R.complement(hasMetric('Priority'));
+const nameValueMetricPairs = R.pipe(
+    R.prop('name'),
+    R.toLower,
+    R.split(': ')
+);
 
-const shouldAddPriorityLabel = R.allPass([hasAllMetrics, priorityLabelIsNotSet]);
+const filterMetricsByName = R.pick(R.concat([priorityLabelName], metricNames));
+
+const prepareMetrics = R.compose(
+    R.map(parseFloat),
+    filterMetricsByName,
+    R.fromPairs,
+    R.map(nameValueMetricPairs)
+);
+
+const allMetricsPresent = R.compose(
+    R.equals(metricNames),
+    R.keys
+);
+const shouldAddPriorityLabel = R.allPass([allMetricsPresent, priorityLabelIsNotSet]);
 
 module.exports = (context, addLabel, calculatePriority) => {
     const addPriorityLabel = R.compose(
         addLabel.bind(null, context),
-        calculatePriority.bind(null, context)
+        calculatePriority
     );
 
     R.when(
         shouldAddPriorityLabel,
         addPriorityLabel
-    )(context.labels);
+    )(prepareMetrics(context.labels));
 };
