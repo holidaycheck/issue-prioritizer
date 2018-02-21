@@ -1,7 +1,7 @@
 const issueLabelsHandler = require('./src/issueLabelsHandler');
+const calculatePriority = require('./src/calculatePriority');
 
 const addLabel = () => {};
-const calculatePriority = () => {};
 
 module.exports = (robot) => {
     const events = ['issues.labeled', 'issues.unlabeled', 'issues.opened'];
