@@ -26,7 +26,7 @@ const allMetricsPresent = R.compose(
 );
 const shouldAddPriorityLabel = R.allPass([allMetricsPresent, priorityLabelIsNotSet]);
 
-module.exports = (context, addLabel, calculatePriority) => {
+module.exports = (addLabel, calculatePriority, context) => {
     const addPriorityLabel = R.compose(
         addLabel.bind(null, context),
         R.concat('Priority: '),

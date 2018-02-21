@@ -4,7 +4,7 @@ const expectDoNotCalculateOrAddPriorityLabel = (labels) => {
     const context = { labels };
     const addLabelStub = jest.fn();
     const calculatePriorityStub = jest.fn();
-    issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
+    issueLabelsHandler(addLabelStub, calculatePriorityStub, context);
 
     expect(calculatePriorityStub).toHaveBeenCalledTimes(0);
     expect(addLabelStub).toHaveBeenCalledTimes(0);
@@ -27,7 +27,7 @@ describe('issueLabelsHandler', () => {
         };
         const addLabelStub = jest.fn();
         const calculatePriorityStub = jest.fn().mockReturnValue('1.0');
-        issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
+        issueLabelsHandler(addLabelStub, calculatePriorityStub, context);
 
         expect(calculatePriorityStub).toHaveBeenCalledTimes(1);
         expect(calculatePriorityStub).toHaveBeenCalledWith(expectedLabelsForCalculation);
@@ -43,7 +43,7 @@ describe('issueLabelsHandler', () => {
         };
         const addLabelStub = jest.fn();
         const calculatePriorityStub = jest.fn().mockReturnValue('foo-bar');
-        issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
+        issueLabelsHandler(addLabelStub, calculatePriorityStub, context);
 
         expect(addLabelStub).toHaveBeenCalledTimes(1);
         expect(addLabelStub).toHaveBeenCalledWith(context, 'Priority: foo-bar');
