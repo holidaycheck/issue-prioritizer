@@ -26,7 +26,7 @@ describe('issueLabelsHandler', () => {
             weight: 0.5
         };
         const addLabelStub = jest.fn();
-        const calculatePriorityStub = jest.fn();
+        const calculatePriorityStub = jest.fn().mockReturnValue('1.0');
         issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
 
         expect(calculatePriorityStub).toHaveBeenCalledTimes(1);
@@ -46,7 +46,7 @@ describe('issueLabelsHandler', () => {
         issueLabelsHandler(context, addLabelStub, calculatePriorityStub);
 
         expect(addLabelStub).toHaveBeenCalledTimes(1);
-        expect(addLabelStub).toHaveBeenCalledWith(context, 'foo-bar');
+        expect(addLabelStub).toHaveBeenCalledWith(context, 'Priority: foo-bar');
     });
 
     it('WILL NOT add priority label when potential label is missing', () => {
