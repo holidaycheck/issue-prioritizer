@@ -17,13 +17,15 @@ const prepareMetrics = R.compose(
     R.map(parseFloat),
     filterMetricsByName,
     R.fromPairs,
-    R.map(nameValueMetricPairs)
+    R.map(nameValueMetricPairs),
+    R.path(['payload', 'issue', 'labels'])
 );
 
 const allMetricsPresent = R.compose(
     R.equals(metricNames),
     R.keys
 );
+
 const shouldAddPriorityLabel = R.allPass([allMetricsPresent, priorityLabelIsNotSet]);
 
 module.exports = (addLabel, calculatePriority, context) => {
@@ -35,6 +37,6 @@ module.exports = (addLabel, calculatePriority, context) => {
 
     R.when(
         shouldAddPriorityLabel,
-        addPriorityLabel
-    )(prepareMetrics(context.labels));
+        addPriorityLabel,
+    )(prepareMetrics(context));
 };

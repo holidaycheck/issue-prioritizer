@@ -1,7 +1,11 @@
 const issueLabelsHandler = require('../../../src/issueLabelsHandler');
 
 const expectDoNotCalculateOrAddPriorityLabel = (labels) => {
-    const context = { labels };
+    const context = {
+        payload: {
+            issue: { labels }
+        }
+    };
     const addLabelStub = jest.fn();
     const calculatePriorityStub = jest.fn();
     issueLabelsHandler(addLabelStub, calculatePriorityStub, context);
@@ -13,12 +17,16 @@ const expectDoNotCalculateOrAddPriorityLabel = (labels) => {
 describe('issueLabelsHandler', () => {
     it('calculates priority label when all metrics specified', () => {
         const context = {
-            labels: [
-                { id: 208045946, name: 'Effort: 0.3' },
-                { id: 123123123, name: 'Potential: 0.3' },
-                { id: 123456789, name: 'Weight: 0.5' },
-                { id: 123456789, name: 'Foobaria: zzz' }
-            ]
+            payload: {
+                issue: {
+                    labels: [
+                        { id: 208045946, name: 'Effort: 0.3' },
+                        { id: 123123123, name: 'Potential: 0.3' },
+                        { id: 123456789, name: 'Weight: 0.5' },
+                        { id: 123456789, name: 'Foobaria: zzz' }
+                    ]
+                }
+            }
         };
         const expectedLabelsForCalculation = {
             effort: 0.3,
@@ -35,11 +43,15 @@ describe('issueLabelsHandler', () => {
 
     it('adds calculated priority label when all metrics specified', () => {
         const context = {
-            labels: [
-                { id: 208045946, name: 'Effort: 0.1' },
-                { id: 123123123, name: 'Potential: 0.2' },
-                { id: 123456789, name: 'Weight: 0.3' }
-            ]
+            payload: {
+                issue: {
+                    labels: [
+                        { id: 208045946, name: 'Effort: 0.1' },
+                        { id: 123123123, name: 'Potential: 0.2' },
+                        { id: 123456789, name: 'Weight: 0.3' }
+                    ]
+                }
+            }
         };
         const addLabelStub = jest.fn();
         const calculatePriorityStub = jest.fn().mockReturnValue('foo-bar');
