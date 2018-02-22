@@ -7,12 +7,5 @@ module.exports = {
   },
   "plugins": [
     "ramda"
-  ],
-  "globals": {
-    "it": true,
-    "describe": true,
-    "jest": true,
-    "expect": true,
-    "afterEach": true
-  }
+  ]
 };
