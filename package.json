@@ -13,10 +13,6 @@
     "pretest": "npm run lint",
     "lint": "eslint ."
   },
-  "jest": {
-    "testRegex": "/test/unit/.*Spec.js$",
-    "setupTestFrameworkScriptFile": "<rootDir>/test/unit/setup.js"
-  },
   "dependencies": {
     "probot": "^5.0.0",
     "ramda": "^0.25.0"
@@ -27,7 +23,6 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-ramda": "^2.4.0",
-    "jest": "^21.2.1",
     "nodemon": "^1.14.12",
     "sinon": "^4.3.0",
     "smee-client": "^1.0.1"
