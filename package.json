@@ -8,8 +8,8 @@
   "scripts": {
     "start": "probot run ./index.js",
     "dev:start": "nodemon --exec 'npm start'",
-    "test": "jest",
-    "test:watch": "jest . --watch",
+    "test": "ava",
+    "test:watch": "ava --watch",
     "pretest": "npm run lint",
     "lint": "eslint ."
   },
