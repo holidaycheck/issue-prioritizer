@@ -1,13 +1,12 @@
-const index = require('../../index');
+import test from 'ava';
+import sinon from 'sinon';
+import index from '../../index';
 
-describe('index', () => {
-    it('handles issue labels events', () => {
-        const expectedEvents = ['issues.labeled', 'issues.unlabeled', 'issues.opened'];
-        const robot = { on: jest.fn() };
-        index(robot);
+test('handles issue labels events', t => {
+    const expectedEvents = ['issues.labeled', 'issues.unlabeled', 'issues.opened'];
+    const robot = { on: sinon.spy() };
+    index(robot);
 
-        expect(robot.on).toHaveBeenCalledTimes(1);
-        const firstArgument = robot.on.mock.calls[0][0];
-        expect(firstArgument).toEqual(expectedEvents);
-    });
+    t.is(robot.on.callCount, 1);
+    t.deepEqual(robot.on.firstCall.args[0], expectedEvents);
 });
