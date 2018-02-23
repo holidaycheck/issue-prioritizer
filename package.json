@@ -8,26 +8,23 @@
   "scripts": {
     "start": "probot run ./index.js",
     "dev:start": "nodemon --exec 'npm start'",
-    "test": "jest",
-    "test:watch": "jest . --watch",
+    "test": "ava",
+    "test:watch": "ava --watch",
     "pretest": "npm run lint",
     "lint": "eslint ."
-  },
-  "jest": {
-    "testRegex": "/test/unit/.*Spec.js$",
-    "setupTestFrameworkScriptFile": "<rootDir>/test/unit/setup.js"
   },
   "dependencies": {
     "probot": "^5.0.0",
     "ramda": "^0.25.0"
   },
   "devDependencies": {
+    "ava": "^1.0.0-beta.3",
     "eslint": "^4.17.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-ramda": "^2.4.0",
-    "jest": "^21.2.1",
     "nodemon": "^1.14.12",
+    "sinon": "^4.3.0",
     "smee-client": "^1.0.1"
   },
   "engines": {
